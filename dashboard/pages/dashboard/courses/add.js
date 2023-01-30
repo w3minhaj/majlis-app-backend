@@ -91,12 +91,7 @@ export default function Page() {
           margin="normal"
           value={outcome}
         />
-        {/* 
-        <Button variant="outlined" startIcon={<DeleteIcon />}>
-          Delete
-        </Button> */}
-
-        {/* <ImageUpload /> */}
+        <ImageUpload />
       </Box>
     </Paper>
   );
