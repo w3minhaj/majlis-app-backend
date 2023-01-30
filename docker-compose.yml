@@ -1,0 +1,21 @@
+version: '3'
+services:
+  api:
+    build:
+      context: ./api
+    ports:
+      - "5000:5000"
+    container_name: api
+    volumes:
+      - ./api:/usr/src/app/api
+      - /usr/src/app/api/node_modules
+  dashboard:
+    build:
+      context: ./dashboard
+    ports:
+      - "5002:5002"
+    container_name: dashboard
+    stdin_open: true
+    volumes:
+      - ./dashboard:/usr/src/app/dashboard
+      - /usr/src/app/dashboard/node_modules
