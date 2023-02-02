@@ -1,6 +1,6 @@
-FROM node:10
+FROM node:18-alpine
 
-WORKDIR /usr/src/app/dashboard/
+WORKDIR /dashboard
 
 COPY package*.json ./
 

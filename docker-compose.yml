@@ -7,8 +7,8 @@ services:
       - "5000:5000"
     container_name: api
     volumes:
-      - ./api:/usr/src/app/api
-      - /usr/src/app/api/node_modules
+      - ./api:/api
+      - /api/node_modules
   dashboard:
     build:
       context: ./dashboard
@@ -17,5 +17,5 @@ services:
     container_name: dashboard
     stdin_open: true
     volumes:
-      - ./dashboard:/usr/src/app/dashboard
-      - /usr/src/app/dashboard/node_modules
+      - ./dashboard:/dashboard
+      - /dashboard/node_modules
