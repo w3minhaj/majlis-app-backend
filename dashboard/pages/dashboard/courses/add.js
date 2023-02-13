@@ -5,6 +5,7 @@ import {
   Button,
   FormControl,
   Grid,
+  InputAdornment,
   InputLabel,
   MenuItem,
   Paper,
@@ -20,6 +21,7 @@ export default function Page() {
   const [duration, setDuration] = React.useState();
   const [outcome, setOutcome] = React.useState("");
   const [description, setDescription] = React.useState();
+  const [fees, setFees] = React.useState(0);
 
   return (
     <Paper variant="outlined">
@@ -38,9 +40,7 @@ export default function Page() {
         />
         <Stack direction="row" spacing={2} marginY={1}>
           <FormControl required fullWidth>
-            <InputLabel id="demo-simple-select-helper-label">
-              Type of Course
-            </InputLabel>
+            <InputLabel>Type of Course</InputLabel>
             <Select
               value={type}
               label="Type of course"
@@ -55,9 +55,7 @@ export default function Page() {
             </Select>
           </FormControl>
           <FormControl required fullWidth>
-            <InputLabel id="demo-simple-select-helper-label">
-              Course Duration
-            </InputLabel>
+            <InputLabel>Course Duration</InputLabel>
             <Select
               value={duration}
               label="Course Duration"
@@ -77,21 +75,46 @@ export default function Page() {
         </Stack>
         <TextField
           fullWidth
+          required
           label="Description"
           multiline
           rows={4}
           margin="normal"
           value={description}
+          onChange={(event) => {
+            setDescription(event.target.value);
+          }}
         />
         <TextField
           fullWidth
+          required
           label="Program Outcome"
           multiline
           rows={4}
           margin="normal"
           value={outcome}
+          onChange={(event) => {
+            setOutcome(event.target.value);
+          }}
         />
+        <InputLabel>Upload course image*</InputLabel>
         <ImageUpload />
+        <TextField
+          fullWidth
+          required
+          label="Course Fee"
+          margin="normal"
+          value={fees}
+          onChange={(event) => {
+            const regex = /^[0-9\b]+$/;
+            if (event.target.value === "" || regex.test(event.target.value)) {
+              setFees(event.target.value);
+            }
+          }}
+          InputProps={{
+            startAdornment: <InputAdornment position="start">₹</InputAdornment>,
+          }}
+        />
       </Box>
     </Paper>
   );
