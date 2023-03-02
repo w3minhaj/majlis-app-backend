@@ -1,7 +1,7 @@
 import Dashboard from '@/layouts/Dashboard'
-import Notifications from '@/components/AddNotification'
+import AddGallery from '@/components/AddGallery'
 export default function Page() {
-  return <Notifications />
+  return <AddGallery />
 }
 
 Page.getLayout = function getLayout(page) {
