@@ -1,10 +1,9 @@
 import ImageUpload from '@/components/ImageUpload'
-import Dashboard from '@/layouts/Dashboard'
-import { Description } from '@mui/icons-material'
 import {
+  Alert,
+  AlertTitle,
   Button,
   FormControl,
-  Grid,
   InputAdornment,
   InputLabel,
   MenuItem,
@@ -12,16 +11,37 @@ import {
   Select,
   TextField,
 } from '@mui/material'
-import { Box, Container, Stack } from '@mui/system'
-import React from 'react'
+import { Box, Stack } from '@mui/system'
+import { useState } from 'react'
 
 export default function Page({ onSubmit }) {
-  const [name, setName] = React.useState('')
-  const [type, setType] = React.useState('')
-  const [duration, setDuration] = React.useState()
-  const [outcome, setOutcome] = React.useState('')
-  const [description, setDescription] = React.useState()
-  const [fees, setFees] = React.useState(0)
+  const [name, setName] = useState('')
+  const [type, setType] = useState('UG')
+  const [duration, setDuration] = useState(3)
+  const [outcome, setOutcome] = useState('')
+  const [description, setDescription] = useState('')
+  const [image, setImage] = useState([])
+  const [fee, setFee] = useState(0)
+  const [error, setError] = useState(null)
+
+  const onFormSubmit = async () => {
+    try {
+      if (name && type && duration && outcome && description && image && fee) {
+        return await onSubmit({
+          program: name,
+          type,
+          duration,
+          outcome,
+          description,
+          image: image[0],
+          fee,
+        })
+      }
+    } catch (err) {
+      console.log(err)
+      setError(err.response.data.message.message)
+    }
+  }
 
   return (
     <Paper variant='outlined'>
@@ -65,11 +85,11 @@ export default function Page({ onSubmit }) {
               fullWidth
               required
             >
-              <MenuItem value={1}>1</MenuItem>
-              <MenuItem value={2}>2</MenuItem>
-              <MenuItem value={3}>3</MenuItem>
-              <MenuItem value={4}>4</MenuItem>
-              <MenuItem value={5}>5</MenuItem>
+              <MenuItem value={1}>1 Years</MenuItem>
+              <MenuItem value={2}>2 Years</MenuItem>
+              <MenuItem value={3}>3 Years</MenuItem>
+              <MenuItem value={4}>4 Years</MenuItem>
+              <MenuItem value={5}>5 Years</MenuItem>
             </Select>
           </FormControl>
         </Stack>
@@ -98,28 +118,30 @@ export default function Page({ onSubmit }) {
           }}
         />
         <InputLabel>Upload course image*</InputLabel>
-        <ImageUpload />
+        <ImageUpload files={image} setFiles={setImage} numFiles={1} />
         <TextField
           fullWidth
           required
           label='Course Fee'
           margin='normal'
-          value={fees}
+          value={fee}
           onChange={(event) => {
             const regex = /^[0-9\b]+$/
             if (event.target.value === '' || regex.test(event.target.value)) {
-              setFees(event.target.value)
+              setFee(event.target.value)
             }
           }}
           InputProps={{
             startAdornment: <InputAdornment position='start'>₹</InputAdornment>,
           }}
         />
-
-        <Button
-          variant='contained'
-          onClick={onSubmit.bind(this, { name, type, duration, outcome, fees })}
-        >
+        {error && (
+          <Alert severity='error'>
+            <AlertTitle>Error</AlertTitle>
+            {error}
+          </Alert>
+        )}
+        <Button variant='contained' onClick={onFormSubmit}>
           Submit
         </Button>
       </Box>
