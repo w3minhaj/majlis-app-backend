@@ -14,7 +14,8 @@ const useFetch = (url, options) => {
       setLoading(true)
       try {
         const res = await axios.get(url, { signal, ...options })
-        const json = await res.json()
+        const json = await res.data
+        console.log(json)
         if (!signal.aborted) {
           setResponse(json)
         }

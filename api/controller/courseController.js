@@ -1,13 +1,12 @@
 const Course = require('../models/courseModel')
-const app = require('../app')
 const fs = require('fs')
 const { promisify } = require('util')
-const { log } = require('console')
+const path = require('path')
 const unlinkAsync = promisify(fs.unlink)
 
 exports.getAllCourse = async (req, res) => {
   try {
-    const course = await Course.find()
+    const course = await Course.find().sort('program')
     res.status(200).json({
       status: 'success',
       results: course.length,
@@ -73,11 +72,11 @@ exports.deleteCourse = async (req, res) => {
     const deleteCourse = await Course.findById(req.params.id)
     const courseImagePath = deleteCourse.image
     await Course.findByIdAndDelete(req.params.id)
+    await unlinkAsync(path.join(__dirname, `../uploads/${courseImagePath}`))
     res.status(204).json({
       status: 'success',
       data: 'Deleted',
     })
-    await unlinkAsync(courseImagePath)
   } catch (err) {
     res.status(404).json({
       status: 'fail',

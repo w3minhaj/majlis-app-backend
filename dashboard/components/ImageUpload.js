@@ -69,7 +69,10 @@ function ImageUpload({ files, setFiles, accept, numFiles }) {
     isDragReject,
     acceptedFiles,
   } = useDropzone({
-    accept: accept || { 'image/*': [] },
+    accept: accept || {
+      'image/png': ['.png'],
+      'image/jpeg': ['.jpg', '.jpeg'],
+    },
     onDrop: (acceptedFiles) => {
       setFiles(
         acceptedFiles.map((file) =>
@@ -92,20 +95,22 @@ function ImageUpload({ files, setFiles, accept, numFiles }) {
     [isFocused, isDragAccept, isDragReject]
   )
 
-  const thumbs = files.map((file) => (
-    <div style={thumb} key={file.name}>
-      <div style={thumbInner}>
-        <img
-          src={file.preview}
-          style={img}
-          // Revoke data uri after image is loaded
-          onLoad={() => {
-            URL.revokeObjectURL(file.preview)
-          }}
-        />
+  const thumbs =
+    files &&
+    files.map((file) => (
+      <div style={thumb} key={file.name}>
+        <div style={thumbInner}>
+          <img
+            src={file.preview}
+            style={img}
+            // Revoke data uri after image is loaded
+            onLoad={() => {
+              URL.revokeObjectURL(file.preview)
+            }}
+          />
+        </div>
       </div>
-    </div>
-  ))
+    ))
 
   const filesList = acceptedFiles.map((file) => (
     <li key={file.path}>
@@ -115,7 +120,8 @@ function ImageUpload({ files, setFiles, accept, numFiles }) {
 
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-    return () => files.forEach((file) => URL.revokeObjectURL(file.preview))
+    return () =>
+      files && files.forEach((file) => URL.revokeObjectURL(file.preview))
   }, [])
 
   return (

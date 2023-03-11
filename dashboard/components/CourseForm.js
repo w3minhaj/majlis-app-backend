@@ -14,14 +14,14 @@ import {
 import { Box, Stack } from '@mui/system'
 import { useState } from 'react'
 
-export default function Page({ onSubmit }) {
-  const [name, setName] = useState('')
-  const [type, setType] = useState('UG')
-  const [duration, setDuration] = useState(3)
-  const [outcome, setOutcome] = useState('')
-  const [description, setDescription] = useState('')
+export default function CourseForm({ onSubmit, formValues = {}, formType }) {
+  const [name, setName] = useState(formValues.program ?? '')
+  const [type, setType] = useState(formValues.type ?? 'UG')
+  const [duration, setDuration] = useState(formValues.duration ?? 3)
+  const [outcome, setOutcome] = useState(formValues.outcome ?? '')
+  const [description, setDescription] = useState(formValues.description ?? '')
   const [image, setImage] = useState([])
-  const [fee, setFee] = useState(0)
+  const [fee, setFee] = useState(formValues.fee ?? 0)
   const [error, setError] = useState(null)
 
   const onFormSubmit = async () => {
@@ -46,7 +46,11 @@ export default function Page({ onSubmit }) {
   return (
     <Paper variant='outlined'>
       <Box sx={{ padding: 5 }}>
-        <h1>Add new Course</h1>
+        <h1>
+          {formType === 'edit'
+            ? `Edit course - ${formValues.program}`
+            : 'Add new Course'}
+        </h1>
         <TextField
           required
           fullWidth

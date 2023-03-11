@@ -133,14 +133,16 @@ export default function Dashboard({ children }) {
           <Divider />
           <Stack justifyContent='space-between' sx={{ height: '100%' }}>
             <List component='nav'>{mainListItems}</List>
-            <Button
-              variant='contained'
-              startIcon={<LogoutIcon />}
-              sx={{ margin: '8px' }}
-              onClick={onLogout}
-            >
-              Logout
-            </Button>
+            {open && (
+              <Button
+                variant='contained'
+                startIcon={<LogoutIcon />}
+                sx={{ margin: '8px' }}
+                onClick={onLogout}
+              >
+                Logout
+              </Button>
+            )}
           </Stack>
         </Drawer>
         <Box
