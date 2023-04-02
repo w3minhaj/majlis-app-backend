@@ -3,7 +3,7 @@ import Add from '@/components/CourseForm'
 import Dashboard from '@/layouts/Dashboard'
 import { useRouter } from 'next/router'
 
-export default function Page() {
+export default function Page({ API_URL }) {
   const router = useRouter()
 
   const onSubmit = async (body) => {
@@ -12,7 +12,7 @@ export default function Page() {
       form.append(key, body[key])
     })
 
-    await axios.post(`http://localhost:5000/api/v1/course`, form, {
+    await axios.post(`${API_URL}/course`, form, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
@@ -30,4 +30,8 @@ export default function Page() {
 
 Page.getLayout = function getLayout(page) {
   return <Dashboard>{page}</Dashboard>
+}
+
+export async function getStaticProps() {
+  return { props: { API_URL: process.env.API_URL } }
 }

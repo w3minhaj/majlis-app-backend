@@ -14,7 +14,7 @@ export default function Page({ API_URL }) {
       form.append(key, body[key])
     })
 
-    await axios.post(`${API_URL}/api/v1/course`, form, {
+    await axios.post(`${API_URL}/course`, form, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
