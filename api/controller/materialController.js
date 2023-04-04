@@ -2,6 +2,7 @@ const Material = require('../models/materialModel')
 const fs = require('fs')
 const { promisify } = require('util')
 const Course = require('../models/courseModel')
+const path = require('path')
 
 const unlinkAsync = promisify(fs.unlink)
 
@@ -64,7 +65,7 @@ exports.deleteMaterial = async (req, res) => {
       status: 'success',
       data: 'Deleted',
     })
-    await unlinkAsync(materialPath)
+    await unlinkAsync(path.join(__dirname, `../uploads/${materialPath}`))
   } catch (err) {
     res.status(404).json({
       status: 'fail',
