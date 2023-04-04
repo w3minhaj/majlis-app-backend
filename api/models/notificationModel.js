@@ -1,9 +1,15 @@
-const mongoose = require("mongoose");
-const notificationSchema = new mongoose.Schema({
-  content: {
-    type: String,
-  },
-});
-const Notification = mongoose.model("Notification", notificationSchema);
+const mongoose = require('mongoose')
 
-module.exports = Notification;
+//TODO: update model to add image notifications
+const notificationSchema = new mongoose.Schema(
+  {
+    content: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true }
+)
+const Notification = mongoose.model('Notification', notificationSchema)
+
+module.exports = Notification

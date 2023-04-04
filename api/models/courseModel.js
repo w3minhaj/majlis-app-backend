@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const subjects = require('./materialModel')
 const courseSchema = new mongoose.Schema(
   {
     program: {
