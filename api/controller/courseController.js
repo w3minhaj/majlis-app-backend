@@ -39,8 +39,6 @@ exports.getCourse = async (req, res) => {
 }
 
 exports.createCourse = async (req, res) => {
-  console.log(req.body.type)
-  console.log(req.files.image[0])
   try {
     const newCourse = new Course({
       program: req.body.program,
@@ -60,6 +58,7 @@ exports.createCourse = async (req, res) => {
       },
     })
   } catch (err) {
+    //TODO: delete image uploaded if adding to db fails
     res.status(400).json({
       status: 'failed',
       message: err,

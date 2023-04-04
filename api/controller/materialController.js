@@ -1,74 +1,74 @@
-const Material = require("../models/materialModel");
-const app = require("../app");
-const fs = require("fs");
-const { promisify } = require("util");
+const Material = require('../models/materialModel')
+const fs = require('fs')
+const { promisify } = require('util')
+const Course = require('../models/courseModel')
 
-const unlinkAsync = promisify(fs.unlink);
+const unlinkAsync = promisify(fs.unlink)
 
-exports.getMaterial = async (req, res) => {
+exports.getMaterials = async (req, res) => {
   try {
-    const material = await Material
-      .find
-      // {program:req.body.program,sem: req.body.sem}
-      ();
+    const { program, semester } = req.query
+    const { id: programId } = await Course.findOne({ program: program })
+    const materials = await Material.find({
+      program: programId,
+      semester,
+    })
 
     res.status(200).json({
-      status: "success",
-      results: material.length,
+      status: 'success',
+      results: materials.length,
       data: {
-        material,
+        materials,
       },
-    });
+    })
   } catch (err) {
     res.status(404).json({
-      status: "fail",
+      status: 'fail',
       message: err,
-    });
+    })
   }
-};
+}
 
 exports.createMaterial = async (req, res) => {
   try {
-    const newMaterial = new Material({
-      subjects: {
-        program: req.body.program,
-        semester: req.body.semester,
-        subject: {
-          name: req.body.name,
-          material: req.files.material[0].filename,
-        },
-      },
-    });
+    const program = await Course.findOne({ program: req.body.program })
 
-    await newMaterial.save();
+    const newMaterial = new Material({
+      program: program._id,
+      semester: req.body.semester,
+      material: req.files.material[0].filename,
+    })
+
+    await newMaterial.save()
     res.status(201).json({
-      status: "success",
+      status: 'success',
       data: {
         material: newMaterial,
       },
-    });
+    })
   } catch (err) {
+    //TODO: delete material file uploaded if adding to db fails
     res.status(400).json({
-      status: "failed",
+      status: 'failed',
       message: err,
-    });
+    })
   }
-};
+}
 
 exports.deleteMaterial = async (req, res) => {
   try {
-    const deleteMaterial = await Material.findById(req.params.id);
-    const materialPath = deleteMaterial.subjects.subject[0].material;
-    await Material.findByIdAndDelete(req.params.id);
+    const deleteMaterial = await Material.findById(req.params.id)
+    const materialPath = deleteMaterial.material
+    await Material.findByIdAndDelete(req.params.id)
     res.status(204).json({
-      status: "success",
-      data: "Deleted",
-    });
-    await unlinkAsync(materialPath);
+      status: 'success',
+      data: 'Deleted',
+    })
+    await unlinkAsync(materialPath)
   } catch (err) {
     res.status(404).json({
-      status: "fail",
+      status: 'fail',
       message: err,
-    });
+    })
   }
-};
+}

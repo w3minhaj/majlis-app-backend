@@ -1,17 +1,14 @@
-const express = require('express');
-const materialController = require('../controller/materialController')
-const router = express.Router(); 
-const uploads= require('../middleware/upload')
-const {protect} = require('../middleware/authMiddleware')
-
-
-router
-.route('/')
-.get(materialController.getMaterial)
-.post(protect,uploads,materialController.createMaterial)
+const express = require('express')
+const materialsController = require('../controller/materialController')
+const router = express.Router()
+const uploads = require('../middleware/upload')
+const { protect } = require('../middleware/authMiddleware')
 
 router
-.route('/:id')
-.delete(protect,materialController.deleteMaterial)
+  .route('/')
+  .get(materialsController.getMaterials)
+  .post(protect, uploads, materialsController.createMaterial)
 
-module.exports=router;
+router.route('/:id').delete(protect, materialsController.deleteMaterial)
+
+module.exports = router
