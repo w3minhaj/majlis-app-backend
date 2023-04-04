@@ -7,6 +7,8 @@ var storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     let ext = path.extname(file.originalname)
+    console.log('running')
+
     //TODO: remove originalname in filename, instead add a new field in model
     if (file.fieldname === 'material') {
       cb(
@@ -38,6 +40,7 @@ const multipleUpload = uploads.fields([
   { name: 'material', maxCount: 1 },
   { name: 'gallery', maxCount: 1 },
   { name: 'content', maxCount: 1 },
+  { name: 'image', maxCount: 1 },
 ])
 
 module.exports = multipleUpload
