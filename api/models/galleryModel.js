@@ -1,13 +1,11 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const gallerySchema = new mongoose.Schema({
-    gallery:{
-        link:{
-            type:String,
-            required:[true,'Must have a String']
-        }
-    }
+  image: {
+    type: String,
+    required: [true, 'Image upload error'],
+  },
 })
-const Gallery = mongoose.model('galleries', gallerySchema);
+const Gallery = mongoose.model('galleries', gallerySchema)
 
-module.exports = Gallery;
+module.exports = Gallery

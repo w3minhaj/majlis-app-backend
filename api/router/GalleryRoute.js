@@ -1,17 +1,14 @@
-const express = require('express');
+const express = require('express')
 const galleryController = require('../controller/galleryController.js')
-const router = express.Router(); 
-const uploads= require('../middleware/upload')
-const {protect} = require('../middleware/authMiddleware')
-
-
-router
-.route('/')
-.get(galleryController.getAllGallery)
-.post(protect,uploads,galleryController.createGallery)
+const router = express.Router()
+const uploads = require('../middleware/upload')
+const { protect } = require('../middleware/authMiddleware')
 
 router
-.route('/:id')
-.delete(protect,galleryController.deleteGallery);
+  .route('/')
+  .get(galleryController.getAllGallery)
+  .post(protect, uploads, galleryController.createGallery)
 
-module.exports=router;
+router.route('/:id').delete(protect, galleryController.deleteGallery)
+
+module.exports = router

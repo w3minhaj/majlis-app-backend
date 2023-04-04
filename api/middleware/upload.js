@@ -8,7 +8,14 @@ var storage = multer.diskStorage({
   filename: function (req, file, cb) {
     let ext = path.extname(file.originalname)
     //TODO: remove originalname in filename, instead add a new field in model
-    cb(null, file.fieldname + '_' + file.originalname + '_' + Date.now() + ext)
+    if (file.fieldname === 'material') {
+      cb(
+        null,
+        file.fieldname + '_' + file.originalname + '_' + Date.now() + ext
+      )
+    } else {
+      cb(null, file.fieldname + '_' + Date.now() + ext)
+    }
   },
 })
 uploads = multer({
@@ -28,7 +35,6 @@ uploads = multer({
 })
 
 const multipleUpload = uploads.fields([
-  { name: 'image', maxCount: 1 },
   { name: 'material', maxCount: 1 },
   { name: 'gallery', maxCount: 1 },
   { name: 'content', maxCount: 1 },

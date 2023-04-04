@@ -26,14 +26,10 @@ exports.getAllGallery = async (req, res) => {
 
 exports.createGallery = async (req, res) => {
   try {
-    console.log(req.files.gallery)
     const newGallery = new Gallery({
-      gallery: {
-        link: req.files.gallery[0].filename,
-      },
+      image: req.files.gallery[0].filename,
     })
     await newGallery.save()
-    console.log(newGallery)
     res.status(200).json({
       status: 'success',
       data: newGallery,
@@ -50,13 +46,13 @@ exports.createGallery = async (req, res) => {
 exports.deleteGallery = async (req, res) => {
   try {
     const deleteimage = await Gallery.findById(req.params.id)
-    const imagepath = deleteimage.gallery.link
+    const imagepath = deleteimage.image
     await Gallery.findByIdAndDelete(req.params.id)
     res.status(200).json({
       status: 'success',
       data: null,
     })
-    await unlinkAsync(imagepath)
+    await unlinkAsync(path.join(__dirname, `../uploads/${imagepath}`))
   } catch (err) {
     res.status(404).json({
       status: 'fail',
