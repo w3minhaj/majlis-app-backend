@@ -21,7 +21,7 @@ app.use('/api/course', courseRoute)
 app.use('/api/gallery', galleryRoute)
 app.use('/api/notification', notificationRoute)
 app.use('/api/material', materialRoute)
-app.use('/api/admission', admissionRoute)
+// app.use('/api/admission', admissionRoute)
 app.use('/api/users', userRoute)
 
 app.use(notFound)
