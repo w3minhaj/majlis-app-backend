@@ -7,8 +7,6 @@ const admissionRoute = require('./router/admissionRoute')
 const userRoute = require('./router/userRoute')
 const { notFound, errorHandler } = require('./middleware/errorMiddleware.js')
 const multer = require('multer')
-const path = require('path')
-const ejs = require('ejs')
 const cors = require('cors')
 const app = express()
 

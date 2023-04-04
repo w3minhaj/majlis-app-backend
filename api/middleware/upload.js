@@ -7,8 +7,6 @@ var storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     let ext = path.extname(file.originalname)
-    console.log('running')
-
     //TODO: remove originalname in filename, instead add a new field in model
     if (file.fieldname === 'material') {
       cb(
