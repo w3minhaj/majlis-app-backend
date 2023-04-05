@@ -3,6 +3,7 @@ const Gallery = require('./../models/galleryModel')
 
 const fs = require('fs')
 const { promisify } = require('util')
+const path = require('path')
 
 const unlinkAsync = promisify(fs.unlink)
 
